@@ -1,0 +1,73 @@
+         CLIPS (6.4.2 1/14/25)
+CLIPS> (load "prj 3 WIP5.clp")
+%%%%%$*
+[EXPRNPSR3] prj 3 WIP5.clp, Line 59: Missing function declaration for 'Shakey'.
+
+ERROR:
+(defrule MAIN::move-shakey
+   (Shakey (at ?current-location))
+   (Door (from ?current-location) (to ?destination))
+   =>
+   (printout t "Shakey moves from " ?current-location " to " ?destination crlf)
+   (assert (Shakey (at ?destination)))
+   (retract (Shakey
+*
+[EXPRNPSR3] prj 3 WIP5.clp, Line 68: Missing function declaration for 'Box'.
+
+ERROR:
+(defrule MAIN::move-box
+   (Shakey (at ?shakey-location))
+   (Box (id ?box-id) (at ?current-location))
+   (Door (from ?current-location) (to ?destination))
+   =>
+   (printout t "Box " ?box-id " moves from " ?current-location " to " ?destination crlf)
+   (assert (Box (id ?box-id) (at ?destination)))
+   (retract (Box
+*
+[EXPRNPSR3] prj 3 WIP5.clp, Line 76: Missing function declaration for 'LightSwitch'.
+
+ERROR:
+(defrule MAIN::turn-on-light
+   (Shakey (at ?room) (on-top-of ?box))
+   (LightSwitch (id ?light-id) (at ?room) (state off))
+   =>
+   (printout t "Shakey turns on light " ?light-id " in " ?room crlf)
+   (assert (LightSwitch (id ?light-id) (at ?room) (state on)))
+   (retract (LightSwitch
+*
+[EXPRNPSR3] prj 3 WIP5.clp, Line 84: Missing function declaration for 'LightSwitch'.
+
+ERROR:
+(defrule MAIN::turn-off-light
+   (Shakey (at ?room) (on-top-of ?box))
+   (LightSwitch (id ?light-id) (at ?room) (state on))
+   =>
+   (printout t "Shakey turns off light " ?light-id " in " ?room crlf)
+   (assert (LightSwitch (id ?light-id) (at ?room) (state off)))
+   (retract (LightSwitch
+*
+[EXPRNPSR3] prj 3 WIP5.clp, Line 92: Missing function declaration for 'Shakey'.
+
+ERROR:
+(defrule MAIN::climb-up
+   (Shakey (at ?location))
+   (Box (id ?box-id) (at ?location))
+   =>
+   (printout t "Shakey climbs onto box " ?box-id " in " ?location crlf)
+   (assert (Shakey (at ?location) (on-top-of ?box-id)))
+   (retract (Shakey
+*
+[EXPRNPSR3] prj 3 WIP5.clp, Line 99: Missing function declaration for 'Shakey'.
+
+ERROR:
+(defrule MAIN::climb-down
+   (Shakey (at ?location) (on-top-of ?box-id))
+   =>
+   (printout t "Shakey climbs down from box " ?box-id " in " ?location crlf)
+   (assert (Shakey (at ?location)))
+   (retract (Shakey
+*
+[CSTRCPSR1] prj 3 WIP5.clp, Line 112: Expected the beginning of a construct.
+
+FALSE
+CLIPS> 

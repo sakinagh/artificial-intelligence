@@ -1,0 +1,107 @@
+(deftemplate Location
+   (slot name))   ;; Represents rooms and hallways
+
+(deftemplate Door
+   (slot from)
+   (slot to))    ;; Represents connections between rooms and hallways
+
+(deftemplate Shakey
+   (slot at)         ;; Shakey's current location
+   (slot on-top-of)) ;; New slot to represent the box Shakey is on top of
+
+(deftemplate Box
+   (slot id)
+   (slot at))    ;; The box's current location
+
+(deftemplate LightSwitch
+   (slot id)
+   (slot at)
+   (slot state))    ;; The switch location and state (on or off)
+
+(deffacts initial-facts
+   (Location (name Hallway1))
+   (Location (name Hallway2))
+   (Location (name Room1))
+   (Location (name Room2))
+   (Location (name Room3))
+   (Location (name Room4))
+   (Location (name Room5))
+   (Location (name Room6))
+   (Door (from Hallway1) (to Room1))
+   (Door (from Hallway1) (to Room2))
+   (Door (from Hallway1) (to Room3))
+   (Door (from Hallway1) (to Room4))
+   (Door (from Hallway2) (to Room3))
+   (Door (from Hallway2) (to Room4))
+   (Door (from Hallway2) (to Room5))
+   (Door (from Hallway2) (to Room6))
+   (Shakey (at Hallway1))
+   (Box (id 1) (at Hallway2))
+   (Box (id 2) (at Hallway2))
+   (Box (id 3) (at Hallway2))
+   (Box (id 4) (at Hallway2))
+   (Box (id 5) (at Hallway2))
+   (Box (id 6) (at Hallway2))
+   (LightSwitch (id 1) (at Room1) (state off))
+   (LightSwitch (id 2) (at Room2) (state off))
+   (LightSwitch (id 3) (at Room3) (state off))
+   (LightSwitch (id 4) (at Room4) (state off))
+   (LightSwitch (id 5) (at Room5) (state off))
+   (LightSwitch (id 6) (at Room6) (state off))
+)
+
+(defrule move-shakey
+   (Shakey (at ?current-location))  ;; Shakey is at a current location
+   (Door (from ?current-location) (to ?destination))  ;; There is a door to the destination
+   =>
+   (printout t "Shakey moves from " ?current-location " to " ?destination crlf)  ;; Print action
+   (assert (Shakey (at ?destination)))  ;; Assert new location of Shakey
+
+(defrule move-box
+   (Shakey (at ?shakey-location)) ;; Shakey's current location
+   (Box (id ?box-id) (at ?current-location)) ;; Box is at a current location
+   (Door (from ?current-location) (to ?destination)) ;; There is a door to the destination
+   =>
+   (printout t "Box " ?box-id " moves from " ?current-location " to " ?destination crlf) ;; Print action
+   (assert (Box (id ?box-id) (at ?destination))) ;; Update box's location
+
+(defrule turn-on-light
+   (Shakey (at ?room) (on-top-of ?box)) ;; Shakey is on top of a box in the room
+   (LightSwitch (id ?light-id) (at ?room) (state off)) ;; Light is off in the room
+   =>
+   (printout t "Shakey turns on light " ?light-id " in " ?room crlf) ;; Print action
+   (assert (LightSwitch (id ?light-id) (at ?room) (state on))) ;; Turn the light on
+
+(defrule turn-off-light
+   (Shakey (at ?room) (on-top-of ?box)) ;; Shakey is on top of a box in the room
+   (LightSwitch (id ?light-id) (at ?room) (state on)) ;; Light is on in the room
+   =>
+   (printout t "Shakey turns off light " ?light-id " in " ?room crlf) ;; Print action
+   (assert (LightSwitch (id ?light-id) (at ?room) (state off))) ;; Turn the light off
+
+(defrule climb-up
+   (Shakey (at ?location)) ;; Shakey is at a location
+   (Box (id ?box-id) (at ?location)) ;; Box is at the same location
+   =>
+   (printout t "Shakey climbs onto box " ?box-id " in " ?location crlf) ;; Print action
+   (assert (Shakey (at ?location) (on-top-of ?box-id))) ;; Update Shakey's state
+
+(defrule climb-down
+   (Shakey (at ?location) (on-top-of ?box-id)) ;; Shakey is on top of a box
+   =>
+   (printout t "Shakey climbs down from box " ?box-id " in " ?location crlf) ;; Print action
+   (assert (Shakey (at ?location))) ;; Update Shakey's state
+
+(defrule goal-state-achieved
+   (LightSwitch (id 1) (at Room1) (state on))
+   (LightSwitch (id 2) (at Room2) (state on))
+   (LightSwitch (id 3) (at Room3) (state on))
+   (LightSwitch (id 4) (at Room4) (state on))
+   (LightSwitch (id 5) (at Room5) (state on))
+   (LightSwitch (id 6) (at Room6) (state on))
+   =>
+   (printout t "Goal state achieved: All lights are on!" crlf)
+)
+
+(reset)
+(run)

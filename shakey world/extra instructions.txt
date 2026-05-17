@@ -1,0 +1,5 @@
+shakey can see in the dark
+final state lights turned on 
+start in hallway 1
+can define where you want the lights switches 
+can only move one box at a time

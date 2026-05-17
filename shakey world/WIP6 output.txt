@@ -1,0 +1,39 @@
+CLIPS> (load "prj 3 WIP6.clp")
+%%%%%$*
+[EXPRNPSR3] prj 3 WIP6.clp, Line 60: Missing function declaration for 'defrule'.
+
+ERROR:
+(defrule MAIN::move-shakey
+   (Shakey (at ?current-location))
+   (Door (from ?current-location) (to ?destination))
+   =>
+   (printout t "Shakey moves from " ?current-location " to " ?destination crlf)
+   (assert (Shakey (at ?destination)))
+   (defrule
+*
+[EXPRNPSR3] prj 3 WIP6.clp, Line 75: Missing function declaration for 'defrule'.
+
+ERROR:
+(defrule MAIN::turn-on-light
+   (Shakey (at ?room) (on-top-of ?box))
+   (LightSwitch (id ?light-id) (at ?room) (state off))
+   =>
+   (printout t "Shakey turns on light " ?light-id " in " ?room crlf)
+   (assert (LightSwitch (id ?light-id) (at ?room) (state on)))
+   (defrule
+*
+[EXPRNPSR3] prj 3 WIP6.clp, Line 89: Missing function declaration for 'defrule'.
+
+ERROR:
+(defrule MAIN::climb-up
+   (Shakey (at ?location))
+   (Box (id ?box-id) (at ?location))
+   =>
+   (printout t "Shakey climbs onto box " ?box-id " in " ?location crlf)
+   (assert (Shakey (at ?location) (on-top-of ?box-id)))
+   (defrule
+*
+[CSTRCPSR1] prj 3 WIP6.clp, Line 106: Expected the beginning of a construct.
+
+FALSE
+CLIPS> 
