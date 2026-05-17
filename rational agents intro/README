@@ -1,0 +1,28 @@
+AI Representation and Problem Solving: Candy Grab Game
+
+Agent 001 – Always choose 1
+
+Agent 004 – Choose the opposite of opponent
+
+Agent 007 – Whatever you think is best
+
+Which agent code is the most “intelligent”?
+  A: Search / Recursion
+  B: Encode the pattern
+  C: Record statistics of winning positions
+
+Being rational means maximizing your expected utility
+Rational Agents
+Are rational agents omniscient?
+▪ No – they are limited by the available percepts and state
+Are rational agents clairvoyant?
+▪ No – they may lack knowledge of the environment dynamics
+Do rational agents explore and learn?
+▪ Yes – in unknown environments these are essential
+So rational agents are not necessarily successful, but they are
+autonomous (i.e., make decisions on their own to achieve their goals)
+
+How to design agents
+An agent is an entity that perceives and acts.
+Characteristics of the percepts and state, environment, and action space dictate techniques for selecting actions. 
+
